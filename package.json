@@ -1,0 +1,40 @@
+{
+  "name": "essencetube-api",
+  "version": "1.0.0",
+  "description": "EssenceTube API",
+  "main": "api/login.js",
+  "scripts": {
+    "start": "vercel dev --debug",
+    "build": "echo 'No build step required'",
+    "deploy": "vercel --prod",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "_moduleAliases": {
+    "@": "src"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongodb": "^6.16.0",
+    "mustache": "^4.2.0",
+    "pino": "^9.7.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.4.0",
+    "globals": "^16.2.0",
+    "pino-pretty": "^13.0.0",
+    "prettier": "^3.5.3",
+    "vercel": "^42.1.1"
+  },
+  "engines": {
+    "node": ">=20.x"
+  },
+  "license": "MIT"
+}
