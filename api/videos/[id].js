@@ -1,5 +1,5 @@
 import { logger } from '../../src/utils/logger';
-import { getPlaylistVideos } from '../../src/usecases/playlistUseCase'
+import { getVideo } from '../../src/usecases/videoUseCase'
 import { BusinessError } from '../../src/errors/BusinessError';
 import { applyCors } from '../../src/utils/cors';
 
@@ -12,8 +12,8 @@ export default async function handler(req, res) {
 
   try {
     const sessionId = req.headers['uuid'];
-    const playlistId = req.query.id;
-    const response = await getPlaylistVideos(sessionId, playlistId);
+    const videoId = req.query.id;
+    const response = await getVideo(sessionId, videoId);
     return res.status(200).json(response);
   } catch (error) {
     logger.error(error);
