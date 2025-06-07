@@ -1,6 +1,6 @@
-import { findOne, create, update } from '../services/mongoService';
+import { findOne, create, update } from '../repositories/mongoRepository';
 import { BusinessError } from '../errors/BusinessError';
-import { buildUrlConsentGoogle, getGoogleToken } from '../services/youtubeService';
+import { buildUrlConsentGoogle, getGoogleToken } from '../adapters/googleAuthApiService';
 import { logger } from '../utils/logger';
 import { v4 as uuidv4 } from 'uuid';
 import { config } from '../config/config';
@@ -24,6 +24,15 @@ export async function getAndSaveToken(code) {
   }
 }
 
+export function buildUrlRedirectBack(uuid) {
+  const webBaseUrl = config.app.web.baseUrl;
+  const redirectUrl = new URL(`${webBaseUrl}/auth/redirect`);
+
+  redirectUrl.searchParams.append('uuid', uuid);
+  
+  return redirectUrl.toString();
+}
+
 async function createTokenDatabase(tokenResponse) {
   try {
     const uuid = uuidv4();
@@ -45,13 +54,4 @@ async function createTokenDatabase(tokenResponse) {
     logger.error('Error saving token to database', error);
     throw new BusinessError('Error saving token to database');
   }
-}
-
-export function buildUrlRedirectBack(uuid) {
-  const webBaseUrl = config.app.web.baseUrl;
-  const redirectUrl = new URL(`${webBaseUrl}/auth/redirect`);
-
-  redirectUrl.searchParams.append('uuid', uuid);
-  
-  return redirectUrl.toString();
 }
