@@ -57,6 +57,23 @@ export async function getVideoMetadata(token, videoId) {
   return data.items && data.items.length > 0 ? mapVideoMetadata(data.items[0]) : null;
 }
 
+export async function removeVideoFromPlaylist(token, playlistItemId) {
+  if (!playlistItemId) {
+    throw new Error("playlistItemId é obrigatório!");
+  }
+
+  const response = await youtubeApiRequest({
+    token,
+    endpoint: 'playlistItems',
+    method: 'DELETE',
+    params: {
+      id: playlistItemId,
+    },
+  });
+
+  return response;
+}
+
 function buildHeaders(token) {
   return {
     Authorization: `Bearer ${token}`,
