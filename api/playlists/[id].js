@@ -1,7 +1,7 @@
-import { logger } from '../src/utils/logger';
-import { getPlaylists } from '../src/usecases/playlistUseCase'
-import { BusinessError } from '../src/errors/BusinessError';
-import { applyCors } from '../src/utils/cors';
+import { logger } from '../../src/utils/logger';
+import { getPlaylists, getPlaylistVideos } from '../../src/usecases/playlistUseCase'
+import { BusinessError } from '../../src/errors/BusinessError';
+import { applyCors } from '../../src/utils/cors';
 
 export default async function handler(req, res) {
   if (applyCors(req, res)) return;
@@ -12,7 +12,8 @@ export default async function handler(req, res) {
 
   try {
     const sessionId = req.headers['uuid'];
-    const response = await getPlaylists(sessionId);
+    const playlistId = req.query.id;
+    const response = await getPlaylistVideos(sessionId, playlistId);
     return res.status(200).json(response);
   } catch (error) {
     logger.error(error);
