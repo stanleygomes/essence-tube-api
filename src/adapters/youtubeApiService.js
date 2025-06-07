@@ -74,6 +74,21 @@ export async function removeVideoFromPlaylist(token, playlistItemId) {
   return response;
 }
 
+export async function getSubscribedChannels(token, maxResults = 50) {
+  const data = await youtubeApiRequest({
+    token,
+    endpoint: 'subscriptions',
+    method: 'GET',
+    params: {
+      part: 'snippet,contentDetails',
+      mine: true,
+      maxResults,
+    },
+  });
+
+  return (data.items || []).map(mapChannelItem);
+}
+
 function buildHeaders(token) {
   return {
     Authorization: `Bearer ${token}`,
@@ -144,6 +159,19 @@ function mapVideoMetadata(item) {
       medium: item.snippet?.thumbnails?.medium?.url || "",
       high: item.snippet?.thumbnails?.high?.url || "",
       maxres: item.snippet?.thumbnails?.maxres?.url || "",
+    },
+  };
+}
+
+function mapChannelItem(item) {
+  return {
+    id: item.snippet?.resourceId?.channelId || "",
+    title: item.snippet?.title || "",
+    description: item.snippet?.description || "",
+    thumbnails: {
+      default: item.snippet?.thumbnails?.default?.url || "",
+      medium: item.snippet?.thumbnails?.medium?.url || "",
+      high: item.snippet?.thumbnails?.high?.url || "",
     },
   };
 }
