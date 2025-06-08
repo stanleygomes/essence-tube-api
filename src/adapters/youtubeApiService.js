@@ -110,6 +110,34 @@ export async function getLatestVideosFromChannel(token, channelId, maxResults = 
   return (data.items || []).map(mapLatestVideoItem);
 }
 
+export async function addVideoToPlaylist(token, playlistId, videoId) {
+  if (!playlistId || !videoId) {
+    throw new Error("playlistId e videoId are required!");
+  }
+
+  const data = {
+    snippet: {
+      playlistId,
+      resourceId: {
+        kind: "youtube#video",
+        videoId,
+      },
+    },
+  };
+
+  const response = await youtubeApiRequest({
+    token,
+    endpoint: 'playlistItems',
+    method: 'POST',
+    params: {
+      part: 'snippet',
+    },
+    data,
+  });
+
+  return response;
+}
+
 function buildHeaders(token) {
   return {
     Authorization: `Bearer ${token}`,
