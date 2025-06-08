@@ -1,5 +1,5 @@
 const axios = require('axios');
-import { AuthError } from '@/errors/AuthError';
+import { AuthError } from '../errors/AuthError';
 import { config } from '../config/config';
 import { logger } from '../utils/logger';
 

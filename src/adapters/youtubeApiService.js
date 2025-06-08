@@ -59,7 +59,7 @@ export async function getVideoMetadata(token, videoId) {
 
 export async function removeVideoFromPlaylist(token, playlistItemId) {
   if (!playlistItemId) {
-    throw new Error("playlistItemId é obrigatório!");
+    throw new Error("playlistItemId is required!");
   }
 
   const response = await youtubeApiRequest({
@@ -87,6 +87,27 @@ export async function getSubscribedChannels(token, maxResults = 50) {
   });
 
   return (data.items || []).map(mapChannelItem);
+}
+
+export async function getLatestVideosFromChannel(token, channelId, maxResults = 10) {
+  if (!channelId) {
+    throw new Error("channelId is required!");
+  }
+
+  const data = await youtubeApiRequest({
+    token,
+    endpoint: 'search',
+    method: 'GET',
+    params: {
+      part: 'snippet',
+      channelId,
+      order: 'date',
+      maxResults,
+      type: 'video',
+    },
+  });
+
+  return (data.items || []).map(mapLatestVideoItem);
 }
 
 function buildHeaders(token) {
@@ -173,5 +194,22 @@ function mapChannelItem(item) {
       medium: item.snippet?.thumbnails?.medium?.url || "",
       high: item.snippet?.thumbnails?.high?.url || "",
     },
+  };
+}
+
+function mapLatestVideoItem(item) {
+  return {
+    id: item.id.videoId,
+    title: item.snippet?.title || "",
+    description: item.snippet?.description || "",
+    publishedAt: item.snippet?.publishedAt,
+    thumbnails: {
+      default: item.snippet?.thumbnails?.default?.url || "",
+      medium: item.snippet?.thumbnails?.medium?.url || "",
+      high: item.snippet?.thumbnails?.high?.url || "",
+      maxres: item.snippet?.thumbnails?.maxres?.url || "",
+    },
+    channelId: item.snippet?.channelId,
+    channelTitle: item.snippet?.channelTitle,
   };
 }
