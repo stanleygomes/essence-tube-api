@@ -30,7 +30,7 @@ async function getDatabaseToken(uuid) {
   try {
     return await findOne('tokens', { uuid });
   } catch (error) {
-    logger.error('Error retrieving token from database', error);
+    logger.error(error);
     throw new BusinessError('Error retrieving token from database');
   }
 }
@@ -56,7 +56,7 @@ async function getRefreshToken(token, uuid) {
 
     return updateToken(tokenResponse, uuid);
   } catch (error) {
-    logger.error(`Error retrieving token`, error);
+    logger.error(error);
     throw new BusinessError(`Error retrieving token: ${error.message}`);
   }
 }
@@ -81,7 +81,7 @@ async function createToken(tokenResponse) {
 
     return tokenObject
   } catch (error) {
-    logger.error('Error creating token to database', error);
+    logger.error(error);
     throw new BusinessError('Error creating token to database');
   }
 }
@@ -93,7 +93,7 @@ async function updateToken(tokenResponse, uuid) {
 
     return tokenObject
   } catch (error) {
-    logger.error('Error updating token to database', error);
+    logger.error(error);
     throw new BusinessError('Error updating token to database');
   }
 }

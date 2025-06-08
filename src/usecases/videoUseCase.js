@@ -13,7 +13,7 @@ export async function getVideo(sessionId, videoId) {
   try {
     return await getVideoMetadata(accessToken, videoId);
   } catch (error) {
-    logger.error('Error retrieving video from api', error);
+    logger.error(error);
     throw new BusinessError('Error retrieving video video api');
   }
 }

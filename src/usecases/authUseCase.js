@@ -19,7 +19,7 @@ export async function getAndSaveToken(code) {
     const { uuid } = await createTokenDatabase(tokenResponse);
     return uuid;
   } catch (error) {
-    logger.error(`Error retrieving token`, error);
+    logger.error(error);
     throw new BusinessError(`Error retrieving token: ${error.message}`);
   }
 }

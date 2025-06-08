@@ -9,7 +9,7 @@ export async function getChannels(sessionId) {
   try {
     return await getSubscribedChannels(accessToken);
   } catch (error) {
-    logger.error('Error retrieving subscriptions from api', error);
+    logger.error(error);
     throw new BusinessError('Error retrieving subscriptions api');
   }
 }
@@ -20,7 +20,7 @@ export async function getChannelVideos(sessionId, channelId) {
   try {
     return await getLatestVideosFromChannel(accessToken, channelId);
   } catch (error) {
-    logger.error('Error retrieving channel videos from api', error);
+    logger.error(error);
     throw new BusinessError('Error retrieving channel videos api');
   }
 }
