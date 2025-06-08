@@ -1,4 +1,4 @@
-import { buildUrlConsent } from '../src/usecases/authUseCase'
+import { buildUrlConsent } from '../src/usecases/authUseCase.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
