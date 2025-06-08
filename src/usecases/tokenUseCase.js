@@ -66,7 +66,6 @@ function buildTokenObject(tokenResponse, uuid) {
     uuid: uuid,
     access_token: tokenResponse.access_token,
     expires_in: tokenResponse.expires_in,
-    refresh_token: tokenResponse.refresh_token,
     scope: tokenResponse.scope,
     token_type: tokenResponse.token_type,
     refresh_token_expires_in: tokenResponse.refresh_token_expires_in,

@@ -1,5 +1,7 @@
 const axios = require('axios');
+import { AuthError } from '@/errors/AuthError';
 import { config } from '../config/config';
+import { logger } from '../utils/logger';
 
 const googleConfig = config.services.google;
 
@@ -46,11 +48,14 @@ export async function refreshToken(token) {
       }
     });
 
-    console.log('Google refresh token response:', res.data);
-
     return res.data;
   } catch (error) {
     if (error.response) {
+      if (error.response.status === 401) {
+        logger.error(error);
+        throw new AuthError('Refresh token invalid or expired.');
+      }
+
       throw new Error(`Google refresh token error: ${error.response.status} - ${JSON.stringify(error.response.data)}`);
     } else {
       throw new Error(`Google refresh token error: ${error.message}`);
