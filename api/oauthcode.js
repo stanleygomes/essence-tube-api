@@ -1,6 +1,6 @@
-import { logger } from '../src/utils/logger';
-import { buildUrlRedirectBack, getAndSaveToken } from '../src/usecases/authUseCase'
-import { BusinessError } from '../src/errors/BusinessError';
+import { logger } from '../src/utils/logger.js';
+import { buildUrlRedirectBack, getAndSaveToken } from '../src/usecases/authUseCase.js'
+import { BusinessError } from '../src/errors/BusinessError.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {

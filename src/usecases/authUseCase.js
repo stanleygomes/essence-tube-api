@@ -4,7 +4,7 @@ import { logger } from '../utils/logger';
 import { config } from '../config/config';
 import { createTokenDatabase } from './tokenUseCase';
 
-export function buildUrlConsent() {
+export function getUrlConsent() {
   return buildUrlConsent();
 }
 

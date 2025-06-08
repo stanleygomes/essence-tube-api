@@ -1,7 +1,7 @@
-import { logger } from '../../../src/utils/logger';
-import { getChannelVideos } from '../../../src/usecases/subscriptionUseCase'
-import { BusinessError } from '../../../src/errors/BusinessError';
-import { applyCors } from '../../../src/utils/cors';
+import { logger } from '../../../src/utils/logger.js';
+import { getChannelVideos } from '../../../src/usecases/subscriptionUseCase.js';
+import { BusinessError } from '../../../src/errors/BusinessError.js';
+import { applyCors } from '../../../src/utils/cors.js';
 
 export default async function handler(req, res) {
   if (applyCors(req, res)) return;
