@@ -54,19 +54,20 @@ async function getRefreshToken(token, uuid) {
       throw new BusinessError('Failed to retrieve access token from Google after refresh');
     }
 
-    return updateToken(tokenResponse, uuid);
+    return updateToken(tokenResponse, uuid, token);
   } catch (error) {
     logger.error(error);
     throw new BusinessError(`Error retrieving token: ${error.message}`);
   }
 }
 
-function buildTokenObject(tokenResponse, uuid) {
+function buildTokenObject(tokenResponse, uuid, token = null) {
   return {
     uuid: uuid,
     access_token: tokenResponse.access_token,
     expires_in: tokenResponse.expires_in,
     scope: tokenResponse.scope,
+    token: token || tokenResponse.refresh_token,
     token_type: tokenResponse.token_type,
     refresh_token_expires_in: tokenResponse.refresh_token_expires_in,
     created_at: new Date(),
@@ -86,9 +87,9 @@ async function createToken(tokenResponse) {
   }
 }
 
-async function updateToken(tokenResponse, uuid) {
+async function updateToken(tokenResponse, uuid, token) {
   try {
-    const tokenObject = buildTokenObject(tokenResponse, uuid);
+    const tokenObject = buildTokenObject(tokenResponse, uuid, token);
     await update('tokens', { uuid }, tokenObject);
 
     return tokenObject
