@@ -67,8 +67,8 @@ function buildTokenObject(tokenResponse, uuid, token = null) {
     access_token: tokenResponse.access_token,
     expires_in: tokenResponse.expires_in,
     scope: tokenResponse.scope,
-    token: token || tokenResponse.refresh_token,
     token_type: tokenResponse.token_type,
+    refresh_token: token || tokenResponse.refresh_token,
     refresh_token_expires_in: tokenResponse.refresh_token_expires_in,
     created_at: new Date(),
   };
