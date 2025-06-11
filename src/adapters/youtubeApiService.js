@@ -36,7 +36,9 @@ export async function getPlaylistItems(token, playlistId, maxResults = 50) {
     },
   });
 
-  return (data.items || []).map(mapVideoItem);
+  return (data.items || [])
+    .sort((a, b) => new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt))
+    .map(mapVideoItem);
 }
 
 export async function getVideoMetadata(token, videoId) {
