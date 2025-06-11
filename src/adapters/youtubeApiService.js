@@ -16,7 +16,9 @@ export async function getPlaylistList(token, maxResults = 50) {
     },
   });
 
-  return (data.items || []).map(mapPlaylistItem);
+  return (data.items || [])
+    .map(mapPlaylistItem)
+    .sort((a, b) => a.title.localeCompare(b.title));
 }
 
 export async function getPlaylistItems(token, playlistId, maxResults = 50) {
