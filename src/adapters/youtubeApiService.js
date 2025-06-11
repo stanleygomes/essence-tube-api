@@ -88,7 +88,9 @@ export async function getSubscribedChannels(token, maxResults = 50) {
     },
   });
 
-  return (data.items || []).map(mapChannelItem);
+  return (data.items || [])
+    .map(mapChannelItem)
+    .sort((a, b) => a.title.localeCompare(b.title));
 }
 
 export async function getLatestVideosFromChannel(token, channelId, maxResults = 10) {
