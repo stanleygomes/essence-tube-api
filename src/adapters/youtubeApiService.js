@@ -199,6 +199,12 @@ function mapVideoItem(item) {
       high: item.snippet?.thumbnails?.high?.url || "",
       maxres: item.snippet?.thumbnails?.maxres?.url || "",
     },
+    owner: {
+      id: item.snippet?.videoOwnerChannelId || "",
+      title: item.snippet?.videoOwnerChannelTitle || "",
+    },
+    videoId: item.contentDetails?.videoId || "",
+    videoPublishedAt: item.contentDetails?.videoPublishedAt || "",
   };
 }
 
