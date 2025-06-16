@@ -1,5 +1,5 @@
 import { BusinessError } from '../errors/BusinessError';
-import { buildUrlConsent, getToken } from '../adapters/googleAuthApiService';
+import { buildUrlConsent, getToken } from '../adapters/api/googleAuthApi';
 import { logger } from '../utils/logger';
 import { config } from '../config/config';
 import { createTokenDatabase } from './tokenUseCase';

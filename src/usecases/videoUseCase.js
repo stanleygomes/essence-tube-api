@@ -1,5 +1,5 @@
 import { BusinessError } from '../errors/BusinessError';
-import { getVideoMetadata } from '../adapters/youtubeApiService';
+import { getVideoMetadata } from '../adapters/api/youtubeApi';
 import { logger } from '../utils/logger';
 import { getBearerToken } from './tokenUseCase';
 

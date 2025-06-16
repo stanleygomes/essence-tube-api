@@ -1,8 +1,8 @@
-import { findOne, create, update } from '../repositories/mongoRepository';
+import { findOne, create, update } from '../adapters/data/mongoRepository';
 import { BusinessError } from '../errors/BusinessError';
 import { logger } from '../utils/logger';
 import { v4 as uuidv4 } from 'uuid';
-import { refreshToken } from '../adapters/googleAuthApiService';
+import { refreshToken } from '../adapters/api/googleAuthApi';
 
 export async function getBearerToken(sessionId) {
   if (!sessionId) {

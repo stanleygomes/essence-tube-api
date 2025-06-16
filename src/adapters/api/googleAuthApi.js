@@ -1,7 +1,7 @@
 const axios = require('axios');
-import { AuthError } from '../errors/AuthError';
-import { config } from '../config/config';
-import { logger } from '../utils/logger';
+import { AuthError } from '../../errors/AuthError';
+import { config } from '../../config/config';
+import { logger } from '../../utils/logger';
 
 const googleConfig = config.services.google;
 

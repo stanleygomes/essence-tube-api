@@ -1,5 +1,5 @@
 import { BusinessError } from '../errors/BusinessError';
-import { addVideoToPlaylist, getPlaylistItems, getPlaylistList, removeVideoFromPlaylist } from '../adapters/youtubeApiService';
+import { addVideoToPlaylist, getPlaylistItems, getPlaylistList, removeVideoFromPlaylist } from '../adapters/api/youtubeApi';
 import { logger } from '../utils/logger';
 import { getBearerToken } from './tokenUseCase';
 

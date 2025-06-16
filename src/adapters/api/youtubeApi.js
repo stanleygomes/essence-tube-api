@@ -1,6 +1,6 @@
 const axios = require('axios');
-import { config } from '../config/config';
-import { logger } from '../utils/logger';
+import { config } from '../../config/config';
+import { logger } from '../../utils/logger';
 
 const { apiBaseUrl } = config.services.youtube;
 

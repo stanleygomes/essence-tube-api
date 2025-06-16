@@ -1,5 +1,5 @@
 import { BusinessError } from '../errors/BusinessError';
-import { getLatestVideosFromChannel, getSubscribedChannels } from '../adapters/youtubeApiService';
+import { getLatestVideosFromChannel, getSubscribedChannels } from '../adapters/api/youtubeApi';
 import { logger } from '../utils/logger';
 import { getBearerToken } from './tokenUseCase';
 

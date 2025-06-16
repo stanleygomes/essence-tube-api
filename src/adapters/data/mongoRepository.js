@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../config/mongodb';
+import { connectToDatabase } from '../../config/mongodb';
 import { ObjectId } from 'mongodb';
 
 export async function find(collection, query = {}, sort = null) {
