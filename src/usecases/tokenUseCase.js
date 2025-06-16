@@ -3,13 +3,14 @@ import { BusinessError } from '../errors/BusinessError';
 import { logger } from '../utils/logger';
 import { v4 as uuidv4 } from 'uuid';
 import { refreshToken } from '../adapters/api/googleAuthApi';
+import { createToken, getTokenByUUID, updateTokenByUUID } from '@/repositories/tokenRepository';
 
 export async function getBearerToken(sessionId) {
   if (!sessionId) {
     throw new BusinessError('Session ID is required!');
   }
 
-  const token = await getDatabaseToken(sessionId);
+  const token = await getTokenByUUID(sessionId);
   if (!token) {
     throw new BusinessError(`Token not found for the provided session ID: ${sessionId}`);
   }
@@ -23,17 +24,9 @@ export async function getBearerToken(sessionId) {
 }
 
 export async function createTokenDatabase(tokenResponse) {
-  return createToken(tokenResponse);
+  return create(tokenResponse);
 }
 
-async function getDatabaseToken(uuid) {
-  try {
-    return await findOne('tokens', { uuid });
-  } catch (error) {
-    logger.error(error);
-    throw new BusinessError('Error retrieving token from database');
-  }
-}
 
 function isTokenExpired(token) {
   if (!token || !token.created_at || !token.expires_in) return true;
@@ -54,7 +47,7 @@ async function getRefreshToken(token, uuid) {
       throw new BusinessError('Failed to retrieve access token from Google after refresh');
     }
 
-    return updateToken(tokenResponse, uuid, token);
+    return update(tokenResponse, uuid, token);
   } catch (error) {
     logger.error(error);
     throw new BusinessError(`Error retrieving token: ${error.message}`);
@@ -74,27 +67,13 @@ function buildTokenObject(tokenResponse, uuid, token = null) {
   };
 }
 
-async function createToken(tokenResponse) {
-  try {
-    const uuid = uuidv4();
-    const tokenObject = buildTokenObject(tokenResponse, uuid);
-    await create('tokens', tokenObject);
-
-    return tokenObject
-  } catch (error) {
-    logger.error(error);
-    throw new BusinessError('Error creating token to database');
-  }
+async function create(tokenResponse) {
+  const uuid = uuidv4();
+  const tokenObject = buildTokenObject(tokenResponse, uuid);
+  await createToken(tokenObject)
 }
 
-async function updateToken(tokenResponse, uuid, token) {
-  try {
-    const tokenObject = buildTokenObject(tokenResponse, uuid, token);
-    await update('tokens', { uuid }, tokenObject);
-
-    return tokenObject
-  } catch (error) {
-    logger.error(error);
-    throw new BusinessError('Error updating token to database');
-  }
+async function update(tokenResponse, uuid, token) {
+  const tokenObject = buildTokenObject(tokenResponse, uuid, token);
+  await updateTokenByUUID(tokenObject, uuid);
 }
