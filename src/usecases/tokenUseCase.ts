@@ -1,16 +1,16 @@
-import { findOne, create, update } from '../adapters/data/mongoRepository';
-import { BusinessError } from '../errors/BusinessError';
-import { logger } from '../utils/logger';
+import { BusinessError } from '../domain/errors/BusinessError.js';
+import { logger } from '../utils/logger.js';
 import { v4 as uuidv4 } from 'uuid';
-import { refreshToken } from '../adapters/api/googleAuthApi';
-import { createToken, getTokenByUUID, updateTokenByUUID } from '@/repositories/tokenRepository';
+import { refreshToken, GoogleTokenResponse } from '../adapters/api/google-auth/googleAuthApi.js';
+import { createToken, getTokenByUUID, updateTokenByUUID } from '../repositories/tokenRepository.js';
+import { Token } from '../domain/entities/token.entity.js';
 
-export async function getBearerToken(sessionId) {
+export async function getBearerToken(sessionId: string): Promise<string> {
   if (!sessionId) {
     throw new BusinessError('Session ID is required!');
   }
 
-  const token = await getTokenByUUID(sessionId);
+  const token = await getTokenByUUID(sessionId) as Token | null;
   if (!token) {
     throw new BusinessError(`Token not found for the provided session ID: ${sessionId}`);
   }
@@ -23,19 +23,18 @@ export async function getBearerToken(sessionId) {
   return token.access_token;
 }
 
-export async function createTokenDatabase(tokenResponse) {
+export async function createTokenDatabase(tokenResponse: GoogleTokenResponse): Promise<Token> {
   return create(tokenResponse);
 }
 
-
-function isTokenExpired(token) {
+function isTokenExpired(token: Token): boolean {
   if (!token || !token.created_at || !token.expires_in) return true;
   const createdAt = new Date(token.created_at).getTime();
   const expiresInMs = token.expires_in * 1000;
   return Date.now() > (createdAt + expiresInMs - 60000);
 }
 
-async function getRefreshToken(token, uuid) {
+async function getRefreshToken(token: string, uuid: string): Promise<Token> {
   if (!token) {
     throw new BusinessError('Refresh token is required!');
   }
@@ -48,13 +47,25 @@ async function getRefreshToken(token, uuid) {
     }
 
     return update(tokenResponse, uuid, token);
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw new BusinessError(`Error retrieving token: ${error.message}`);
   }
 }
 
-function buildTokenObject(tokenResponse, uuid, token = null) {
+function buildTokenObject(tokenResponse: GoogleTokenResponse, uuid: string, token?: string | null): Token {
+  if (!tokenResponse || !tokenResponse.access_token) {
+    throw new BusinessError('Invalid token response from Google. Absent access_token.');
+  }
+
+  if (!tokenResponse.refresh_token) {
+    throw new BusinessError('Invalid token response from Google. Absent refresh_token.');
+  }
+
+  if (!tokenResponse.expires_in) {
+    throw new BusinessError('Invalid token response from Google. Absent expires_in.');
+  }
+
   return {
     uuid: uuid,
     access_token: tokenResponse.access_token,
@@ -67,13 +78,16 @@ function buildTokenObject(tokenResponse, uuid, token = null) {
   };
 }
 
-async function create(tokenResponse) {
+async function create(tokenResponse: GoogleTokenResponse): Promise<Token> {
   const uuid = uuidv4();
   const tokenObject = buildTokenObject(tokenResponse, uuid);
-  await createToken(tokenObject)
+  await createToken(tokenObject);
+
+  return tokenObject;
 }
 
-async function update(tokenResponse, uuid, token) {
+async function update(tokenResponse: GoogleTokenResponse, uuid: string, token: string): Promise<Token> {
   const tokenObject = buildTokenObject(tokenResponse, uuid, token);
   await updateTokenByUUID(tokenObject, uuid);
+  return tokenObject;
 }

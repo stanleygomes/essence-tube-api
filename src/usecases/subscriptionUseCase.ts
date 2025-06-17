@@ -1,9 +1,9 @@
-import { BusinessError } from '../errors/BusinessError';
-import { getLatestVideosFromChannel, getSubscribedChannels } from '../adapters/api/youtubeApi';
-import { logger } from '../utils/logger';
-import { getBearerToken } from './tokenUseCase';
+import { BusinessError } from '../domain/errors/BusinessError.js';
+import { getLatestVideosFromChannel, getSubscribedChannels } from '../adapters/api/youtubeApi.js';
+import { logger } from '../utils/logger.js';
+import { getBearerToken } from './tokenUseCase.js';
 
-export async function getChannels(sessionId) {
+export async function getChannels(sessionId: string): Promise<any> {
   const accessToken = await getBearerToken(sessionId);
 
   try {
@@ -14,7 +14,7 @@ export async function getChannels(sessionId) {
   }
 }
 
-export async function getChannelVideos(sessionId, channelId) {
+export async function getChannelVideos(sessionId: string, channelId: string): Promise<any> {
   const accessToken = await getBearerToken(sessionId);
 
   try {

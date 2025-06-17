@@ -1,6 +1,7 @@
-import { config } from "../config/config";
+import { config } from "../config/config.js";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-export function applyCors(req, res) {
+export function applyCors(req: VercelRequest, res: VercelResponse): boolean {
   const allowedOrigin = config.app.cors.allowedOrigin;
 
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);

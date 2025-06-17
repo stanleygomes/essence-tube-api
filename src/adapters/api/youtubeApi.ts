@@ -1,10 +1,88 @@
-const axios = require('axios');
-import { config } from '../../config/config';
-import { logger } from '../../utils/logger';
+import axios from 'axios';
+import { config } from '../../config/config.js';
+import { logger } from '../../utils/logger.js';
 
 const { apiBaseUrl } = config.services.youtube;
 
-export async function getPlaylistList(token, maxResults = 50) {
+interface YoutubeApiRequestParams {
+  token: string;
+  endpoint: string;
+  method?: 'GET' | 'POST' | 'DELETE';
+  params?: Record<string, any>;
+  data?: any;
+}
+
+interface PlaylistItem {
+  id: string;
+  title: string;
+  description: string;
+  thumbnails: {
+    default: string;
+    medium: string;
+    high: string;
+    maxres: string;
+  };
+}
+
+interface VideoItem {
+  id: string;
+  videoId: string;
+  title: string;
+  description: string;
+  thumbnails: {
+    default: string;
+    medium: string;
+    high: string;
+    maxres: string;
+  };
+  owner: {
+    id: string;
+    title: string;
+  };
+  videoPublishedAt: string;
+}
+
+interface ChannelItem {
+  id: string;
+  title: string;
+  description: string;
+  thumbnails: {
+    default: string;
+    medium: string;
+    high: string;
+  };
+}
+
+interface LatestVideoItem {
+  id: string;
+  title: string;
+  description: string;
+  publishedAt: string;
+  thumbnails: {
+    default: string;
+    medium: string;
+    high: string;
+    maxres: string;
+  };
+  channelId: string;
+  channelTitle: string;
+}
+
+interface VideoMetadata {
+  id: string;
+  title: string;
+  description: string;
+  statistics: Record<string, any>;
+  contentDetails: Record<string, any>;
+  thumbnails: {
+    default: string;
+    medium: string;
+    high: string;
+    maxres: string;
+  };
+}
+
+export async function getPlaylistList(token: string, maxResults = 50): Promise<PlaylistItem[]> {
   const data = await youtubeApiRequest({
     token,
     endpoint: 'playlists',
@@ -18,10 +96,10 @@ export async function getPlaylistList(token, maxResults = 50) {
 
   return (data.items || [])
     .map(mapPlaylistItem)
-    .sort((a, b) => a.title.localeCompare(b.title));
+    .sort((a: PlaylistItem, b: PlaylistItem) => a.title.localeCompare(b.title));
 }
 
-export async function getPlaylistItems(token, playlistId, maxResults = 50) {
+export async function getPlaylistItems(token: string, playlistId: string, maxResults = 50): Promise<VideoItem[]> {
   if (!playlistId) {
     throw new Error("playlistId is required!");
   }
@@ -39,11 +117,11 @@ export async function getPlaylistItems(token, playlistId, maxResults = 50) {
   });
 
   return (data.items || [])
-    .sort((a, b) => new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt))
+    .sort((a: any, b: any) => new Date(b.snippet.publishedAt).getTime() - new Date(a.snippet.publishedAt).getTime())
     .map(mapVideoItem);
 }
 
-export async function getVideoMetadata(token, videoId) {
+export async function getVideoMetadata(token: string, videoId: string): Promise<VideoMetadata | null> {
   if (!videoId) {
     throw new Error("videoId is required!");
   }
@@ -61,7 +139,7 @@ export async function getVideoMetadata(token, videoId) {
   return data.items && data.items.length > 0 ? mapVideoMetadata(data.items[0]) : null;
 }
 
-export async function removeVideoFromPlaylist(token, playlistItemId) {
+export async function removeVideoFromPlaylist(token: string, playlistItemId: string): Promise<any> {
   if (!playlistItemId) {
     throw new Error("playlistItemId is required!");
   }
@@ -78,7 +156,7 @@ export async function removeVideoFromPlaylist(token, playlistItemId) {
   return response;
 }
 
-export async function getSubscribedChannels(token, maxResults = 50) {
+export async function getSubscribedChannels(token: string, maxResults = 50): Promise<ChannelItem[]> {
   const data = await youtubeApiRequest({
     token,
     endpoint: 'subscriptions',
@@ -92,10 +170,10 @@ export async function getSubscribedChannels(token, maxResults = 50) {
 
   return (data.items || [])
     .map(mapChannelItem)
-    .sort((a, b) => a.title.localeCompare(b.title));
+    .sort((a: ChannelItem, b: ChannelItem) => a.title.localeCompare(b.title));
 }
 
-export async function getLatestVideosFromChannel(token, channelId, maxResults = 10) {
+export async function getLatestVideosFromChannel(token: string, channelId: string, maxResults = 10): Promise<LatestVideoItem[]> {
   if (!channelId) {
     throw new Error("channelId is required!");
   }
@@ -116,7 +194,7 @@ export async function getLatestVideosFromChannel(token, channelId, maxResults = 
   return (data.items || []).map(mapLatestVideoItem);
 }
 
-export async function addVideoToPlaylist(token, playlistId, videoId) {
+export async function addVideoToPlaylist(token: string, playlistId: string, videoId: string): Promise<any> {
   if (!playlistId || !videoId) {
     throw new Error("playlistId e videoId are required!");
   }
@@ -144,20 +222,20 @@ export async function addVideoToPlaylist(token, playlistId, videoId) {
   return response;
 }
 
-function buildHeaders(token) {
+function buildHeaders(token: string) {
   return {
     Authorization: `Bearer ${token}`,
     Accept: 'application/json',
   };
 }
 
-async function youtubeApiRequest({ 
-  token, 
-  endpoint, 
-  method = 'GET', 
-  params = {}, 
+async function youtubeApiRequest({
+  token,
+  endpoint,
+  method = 'GET',
+  params = {},
   data = null,
-}) {
+}: YoutubeApiRequestParams): Promise<any> {
   try {
     const res = await axios({
       url: `${apiBaseUrl}/${endpoint}`,
@@ -167,13 +245,13 @@ async function youtubeApiRequest({
       data,
     });
     return res.data;
-  } catch (error) {
+  } catch (error: any) {
     logger.error(error);
     throw error;
   }
 }
 
-function mapPlaylistItem(item) {
+function mapPlaylistItem(item: any): PlaylistItem {
   return {
     id: item.id,
     title: item.snippet?.title || "",
@@ -187,7 +265,7 @@ function mapPlaylistItem(item) {
   };
 }
 
-function mapVideoItem(item) {
+function mapVideoItem(item: any): VideoItem {
   return {
     id: item.id,
     videoId: item.snippet?.resourceId?.videoId || "",
@@ -203,12 +281,11 @@ function mapVideoItem(item) {
       id: item.snippet?.videoOwnerChannelId || "",
       title: item.snippet?.videoOwnerChannelTitle || "",
     },
-    videoId: item.contentDetails?.videoId || "",
     videoPublishedAt: item.contentDetails?.videoPublishedAt || "",
   };
 }
 
-function mapVideoMetadata(item) {
+function mapVideoMetadata(item: any): VideoMetadata {
   return {
     id: item.id,
     title: item.snippet?.title || "",
@@ -224,7 +301,7 @@ function mapVideoMetadata(item) {
   };
 }
 
-function mapChannelItem(item) {
+function mapChannelItem(item: any): ChannelItem {
   return {
     id: item.snippet?.resourceId?.channelId || "",
     title: item.snippet?.title || "",
@@ -237,7 +314,7 @@ function mapChannelItem(item) {
   };
 }
 
-function mapLatestVideoItem(item) {
+function mapLatestVideoItem(item: any): LatestVideoItem {
   return {
     id: item.id.videoId,
     title: item.snippet?.title || "",

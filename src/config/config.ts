@@ -8,13 +8,42 @@ const {
   APP_CORS_ORIGIN,
 } = process.env;
 
-export const config = {
+export interface Config {
+  app: {
+    web: {
+      baseUrl?: string;
+    };
+    cors: {
+      allowedOrigin: string;
+    };
+  };
+  databases: {
+    mongodb: {
+      uri?: string;
+      dbName?: string;
+    };
+  };
+  services: {
+    google: {
+      baseUrl: string;
+      clientId?: string;
+      clientSecret?: string;
+      redirectUri?: string;
+      scope: string;
+    };
+    youtube: {
+      apiBaseUrl: string;
+    };
+  };
+}
+
+export const config: Config = {
   app: {
     web: {
       baseUrl: APP_PUBLIC_BASE_URL,
     },
     cors: {
-      allowedOrigin: APP_CORS_ORIGIN,
+      allowedOrigin: APP_CORS_ORIGIN || '*localhost*',
     },
   },
   databases: {
@@ -34,5 +63,6 @@ export const config = {
     youtube: {
       apiBaseUrl: 'https://www.googleapis.com/youtube/v3',
     },
-  },
+  }
 };
+

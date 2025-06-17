@@ -1,9 +1,14 @@
-import { BusinessError } from '../errors/BusinessError';
-import { addVideoToPlaylist, getPlaylistItems, getPlaylistList, removeVideoFromPlaylist } from '../adapters/api/youtubeApi';
-import { logger } from '../utils/logger';
-import { getBearerToken } from './tokenUseCase';
+import { BusinessError } from '../domain/errors/BusinessError.js';
+import { 
+  addVideoToPlaylist, 
+  getPlaylistItems, 
+  getPlaylistList, 
+  removeVideoFromPlaylist 
+} from '../adapters/api/youtubeApi.js';
+import { logger } from '../utils/logger.js';
+import { getBearerToken } from './tokenUseCase.js';
 
-export async function getPlaylists(sessionId) {
+export async function getPlaylists(sessionId: string): Promise<any> {
   const accessToken = await getBearerToken(sessionId);
 
   try {
@@ -14,7 +19,7 @@ export async function getPlaylists(sessionId) {
   }
 }
 
-export async function getPlaylistVideos(sessionId, playlistId) {
+export async function getPlaylistVideos(sessionId: string, playlistId: string): Promise<any> {
   const accessToken = await getBearerToken(sessionId);
 
   if (!playlistId) {
@@ -29,7 +34,7 @@ export async function getPlaylistVideos(sessionId, playlistId) {
   }
 }
 
-export async function removePlaylistVideo(sessionId, playlistItemId) {
+export async function removePlaylistVideo(sessionId: string, playlistItemId: string): Promise<any> {
   const accessToken = await getBearerToken(sessionId);
 
   if (!playlistItemId) {
@@ -44,7 +49,7 @@ export async function removePlaylistVideo(sessionId, playlistItemId) {
   }
 }
 
-export async function addPlaylistVideo(sessionId, playlistItemId, videoId) {
+export async function addPlaylistVideo(sessionId: string, playlistItemId: string, videoId: string): Promise<any> {
   const accessToken = await getBearerToken(sessionId);
 
   if (!playlistItemId) {
