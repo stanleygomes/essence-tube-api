@@ -2,7 +2,7 @@ import { Playlist } from '../../entities/playlist.entity.js';
 import { Video, VideoMetadata, LatestVideo, PlaylistItem } from '../../entities/video.entity.js';
 import { Channel } from '../../entities/channel.entity.js';
 
-export interface MediaService {
+export interface PartnerMediaService {
   getPlaylistList(token: string, maxResults?: number): Promise<Playlist[]>;
   getPlaylistItems(token: string, playlistId: string, maxResults?: number): Promise<Video[]>;
   getVideoMetadata(token: string, videoId: string): Promise<VideoMetadata | null>;

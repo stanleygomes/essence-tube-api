@@ -9,7 +9,7 @@ import { ChannelMapper } from './mappers/channel.mapper.js';
 import { Playlist } from '../../../domain/entities/playlist.entity.js';
 import { Video, VideoMetadata, LatestVideo, PlaylistItem } from '../../../domain/entities/video.entity.js';
 import { Channel } from '../../../domain/entities/channel.entity.js';
-import { MediaService } from '../../../domain/port/services/media.service.js';
+import { PartnerMediaService } from '../../../domain/port/services/partner-media.service.js';
 
 const { apiBaseUrl } = config.services.youtube;
 
@@ -21,7 +21,7 @@ interface YoutubeApiRequestParams {
   data?: any;
 }
 
-export class YoutubeService implements MediaService {
+export class YoutubeService implements PartnerMediaService {
   private logger = Logger.getLogger();
 
   async getPlaylistList(token: string, maxResults = 50): Promise<Playlist[]> {

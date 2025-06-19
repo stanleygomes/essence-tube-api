@@ -1,12 +1,12 @@
 import { BusinessError } from '../errors/BusinessError.js';
 import { Logger } from '../../infra/logger/pino.logger.js';
 import { GetBearerTokenUseCase } from './get-bearer-token.js';
-import { MediaService } from '../port/services/media.service.js';
+import { PartnerMediaService } from '../port/services/partner-media.service.js';
 
 export class RemoveVideoFromPlaylistUseCase {
   constructor(
     private readonly getBearerToken: GetBearerTokenUseCase,
-    private readonly mediaService: MediaService,
+    private readonly partnerMediaService: PartnerMediaService,
   ) {}
 
   private logger = Logger.getLogger();
@@ -19,7 +19,7 @@ export class RemoveVideoFromPlaylistUseCase {
     }
 
     try {
-      return await this.mediaService.removeVideoFromPlaylist(accessToken, playlistItemId);
+      return await this.partnerMediaService.removeVideoFromPlaylist(accessToken, playlistItemId);
     } catch (error) {
       this.logger.error(error);
       throw new BusinessError('Error deleting playlist items video api');

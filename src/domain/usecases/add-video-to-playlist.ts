@@ -1,12 +1,12 @@
 import { BusinessError } from '../errors/BusinessError.js';
 import { Logger } from '../../infra/logger/pino.logger.js';
 import { GetBearerTokenUseCase } from './get-bearer-token.js';
-import { MediaService } from '../port/services/media.service.js';
+import { PartnerMediaService } from '../port/services/partner-media.service.js';
 
 export class AddVideoToPlaylistUseCase {
   constructor(
     private readonly getBearerToken: GetBearerTokenUseCase,
-    private readonly mediaService: MediaService,
+    private readonly partnerMediaService: PartnerMediaService,
   ) {}
 
   private logger = Logger.getLogger();
@@ -23,7 +23,7 @@ export class AddVideoToPlaylistUseCase {
     }
 
     try {
-      return await this.mediaService.addVideoToPlaylist(accessToken, playlistItemId, videoId);
+      return await this.partnerMediaService.addVideoToPlaylist(accessToken, playlistItemId, videoId);
     } catch (error) {
       this.logger.error(error);
       throw new BusinessError('Error adding a video to a playlist api');
