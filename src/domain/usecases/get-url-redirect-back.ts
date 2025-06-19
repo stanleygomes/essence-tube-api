@@ -16,7 +16,7 @@ export class GetUrlRedirectBackUseCase {
   async execute(authCode: string): Promise<string> {
     const token = await this.generateAuthToken.execute(authCode);
     const partnerUserInfo = await this.partnerAccountService.getUserInfo(token.access_token);
-    const user = await this.saveUserUseCase.execute(partnerUserInfo);
+    const user = await this.saveUserUseCase.execute(partnerUserInfo, token.uuid);
     const bearerToken = this.authService.generateToken(partnerUserInfo, user.uuid)
 
     const webBaseUrl = config.app.web.baseUrl;

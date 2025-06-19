@@ -4,6 +4,7 @@ export interface User {
   email: string;
   photo_url: string;
   partner_id: string;
+  partner_token: string;
   created_at?: Date;
   updated_at?: Date;
 }

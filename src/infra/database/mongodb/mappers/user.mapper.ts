@@ -9,6 +9,7 @@ export class UserMapper {
       email: doc.email,
       photo_url: doc.photo_url,
       partner_id: doc.partner_id,
+      partner_token: doc.partner_token,
       created_at: doc.created_at,
       updated_at: doc.updated_at,
     };
@@ -21,6 +22,7 @@ export class UserMapper {
       email: entity.email,
       photo_url: entity.photo_url,
       partner_id: entity.partner_id,
+      partner_token: entity.partner_token,
       created_at: entity.created_at,
       updated_at: entity.updated_at,
     };
