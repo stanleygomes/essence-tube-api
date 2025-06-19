@@ -1,4 +1,6 @@
 import { config } from '../../infra/config/index.js';
+import { AuthInfo } from '../entities/auth-info.entity.js';
+import { AuthService } from '../port/auth/auth.service.js';
 import { PartnerAccountService } from '../port/services/partner-account.service.js';
 import { GenerateAuthTokenUseCase } from './generate-auth-token.js';
 import { SaveUserUseCase } from './save-user-use-case.js';
@@ -8,17 +10,19 @@ export class GetUrlRedirectBackUseCase {
     private readonly generateAuthToken: GenerateAuthTokenUseCase,
     private readonly partnerAccountService: PartnerAccountService,
     private readonly saveUserUseCase: SaveUserUseCase,
+    private readonly authService: AuthService,
   ) {}
 
   async execute(authCode: string): Promise<string> {
     const token = await this.generateAuthToken.execute(authCode);
     const partnerUserInfo = await this.partnerAccountService.getUserInfo(token.access_token);
     const user = await this.saveUserUseCase.execute(partnerUserInfo);
+    const bearerToken = this.authService.generateToken(partnerUserInfo, user.uuid)
 
     const webBaseUrl = config.app.web.baseUrl;
     const redirectUrl = new URL(`${webBaseUrl}/auth/redirect`);
 
-    redirectUrl.searchParams.append('uuid', token.uuid);
+    redirectUrl.searchParams.append('token', bearerToken);
 
     return redirectUrl.toString();
   }

@@ -22,6 +22,7 @@ import { RemoveVideoFromPlaylistUseCase } from '../../domain/usecases/remove-vid
 import { GoogleAccountService } from '../services/google-account/google-account.service.js';
 import { SaveUserUseCase } from '../../domain/usecases/save-user-use-case.js';
 import { UserMongoDBRepository } from '../database/mongodb/repositories/user.repository.js';
+import { JwtService } from '../auth/jwt.js';
 
 await connectMongoose();
 
@@ -33,6 +34,7 @@ const userMongoDBRepository = new UserMongoDBRepository();
 const googleAuthService = new GoogleAuthService();
 const youtubeService = new YoutubeService();
 const googleAccountService = new GoogleAccountService()
+const authService = new JwtService();
 
 /* use cases */
 const saveUserUseCase = new SaveUserUseCase(
@@ -58,6 +60,7 @@ const getUrlRedirectBack = new GetUrlRedirectBackUseCase(
   generateAuthToken,
   googleAccountService,
   saveUserUseCase,
+  authService,
 );
 const getVideosFromPlaylistUseCase = new GetVideosFromPlaylistUseCase(
   getBearerTokenUseCase,

@@ -7,6 +7,8 @@ const {
   MONGODB_DATABASE,
   APP_CORS_ORIGIN,
   NODE_ENV,
+  JWT_SECRET,
+  JWT_EXPIRES_IN,
 } = process.env;
 
 export interface Config {
@@ -26,6 +28,10 @@ export interface Config {
       uri?: string;
       dbName?: string;
     };
+  };
+  auth: {
+    jwtSecret?: string;
+    jwtExpiresInSeconds?: string;
   };
   services: {
     googleAuth: {
@@ -61,6 +67,10 @@ export const config: Config = {
       uri: MONGODB_URI,
       dbName: MONGODB_DATABASE,
     },
+  },
+  auth: {
+    jwtSecret: JWT_SECRET,
+    jwtExpiresInSeconds: JWT_EXPIRES_IN || '3600',
   },
   services: {
     googleAuth: {
