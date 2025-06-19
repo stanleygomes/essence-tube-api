@@ -19,6 +19,7 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "mongodb": "^6.17.0",
+    "mongoose": "^8.16.0",
     "mustache": "^4.2.0",
     "pino": "^9.7.0",
     "uuid": "^11.1.0"
@@ -28,6 +29,7 @@
     "@types/axios": "^0.9.36",
     "@types/express": "^5.0.3",
     "@types/mongodb": "^4.0.6",
+    "@types/mongoose": "^5.11.96",
     "@types/mustache": "^4.2.6",
     "@types/node": "^24.0.3",
     "@vercel/node": "^5.2.2",
