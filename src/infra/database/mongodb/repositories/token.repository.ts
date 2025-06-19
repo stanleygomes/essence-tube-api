@@ -6,7 +6,6 @@ import { Logger } from '../../../logger/pino.logger.js'
 import type { TokenRepository } from '../../../../domain/port/databases/token.repository.js';
 import { TokenDocument, TokenModel } from '../schemas/token.schema.js';
 
-
 export class TokenMongoDBRepository implements TokenRepository {
   private tokenRepository = new MongoRepository(TokenModel);
   private logger = Logger.getLogger()
