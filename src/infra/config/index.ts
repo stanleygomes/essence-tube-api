@@ -28,12 +28,15 @@ export interface Config {
     };
   };
   services: {
-    google: {
+    googleAuth: {
       baseUrl: string;
       clientId?: string;
       clientSecret?: string;
       redirectUri?: string;
       scope: string;
+    };
+    googleAccount: {
+      baseUrl: string;
     };
     youtube: {
       apiBaseUrl: string;
@@ -60,12 +63,15 @@ export const config: Config = {
     },
   },
   services: {
-    google: {
+    googleAuth: {
       baseUrl: 'https://oauth2.googleapis.com/token',
       clientId: GOOGLE_OAUTH_CLIENT_ID,
       clientSecret: GOOGLE_OAUTH_CLIENT_SECRET,
       redirectUri: GOOGLE_OAUTH_REDIRECT_URI,
-      scope: 'https://www.googleapis.com/auth/youtube',
+      scope: 'openid email profile https://www.googleapis.com/auth/youtube',
+    },
+    googleAccount: {
+      baseUrl: 'https://www.googleapis.com/oauth2/v3/userinfo',
     },
     youtube: {
       apiBaseUrl: 'https://www.googleapis.com/youtube/v3',

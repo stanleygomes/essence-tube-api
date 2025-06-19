@@ -2,6 +2,7 @@ import { BusinessError } from '../errors/BusinessError.js';
 import { Logger } from '../../infra/logger/pino.logger.js';
 import { PartnerOAuthService } from '../port/services/partner-oauth.service.js';
 import { CreateTokenUseCase } from './create-token.js';
+import { Token } from '../entities/token.entity.js';
 
 export class GenerateAuthTokenUseCase {
   constructor(
@@ -11,7 +12,7 @@ export class GenerateAuthTokenUseCase {
 
   private logger = Logger.getLogger();
 
-  async execute(code: string): Promise<string> {
+  async execute(code: string): Promise<Token> {
     try {
       const tokenResponse = await this.partnerOAuthService.getToken(code);
 
@@ -19,8 +20,7 @@ export class GenerateAuthTokenUseCase {
         throw new BusinessError('Failed to retrieve access token from Google');
       }
 
-      const { uuid } = await this.createToken.execute(tokenResponse);
-      return uuid;
+      return this.createToken.execute(tokenResponse);
     } catch (error: any) {
       this.logger.error(error);
       throw new BusinessError(`Error retrieving token: ${error.message}`);

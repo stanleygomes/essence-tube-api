@@ -7,19 +7,25 @@ import { Token } from '../../../domain/entities/token.entity.js';
 import { TokenMapper } from './mappers/token.mapper.js';
 import { PartnerOAuthService } from '../../../domain/port/services/partner-oauth.service.js';
 
-const googleConfig = config.services.google;
+const {
+  baseUrl,
+  clientId,
+  clientSecret,
+  redirectUri,
+  scope,
+} = config.services.googleAuth;
 
 export class GoogleAuthService implements PartnerOAuthService {
   private logger = Logger.getLogger();
 
   async getToken(authCode: string): Promise<Token> {
     try {
-      const res = await axios.post<GoogleTokenResponse>(googleConfig.baseUrl, null, {
+      const res = await axios.post<GoogleTokenResponse>(baseUrl, null, {
         params: {
           code: authCode,
-          client_id: googleConfig.clientId,
-          client_secret: googleConfig.clientSecret,
-          redirect_uri: googleConfig.redirectUri,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri,
           grant_type: 'authorization_code'
         }
       });
@@ -36,20 +42,20 @@ export class GoogleAuthService implements PartnerOAuthService {
 
   buildUrlConsent(): string {
     return `https://accounts.google.com/o/oauth2/v2/auth?` +
-      `client_id=${googleConfig.clientId}` +
-      `&redirect_uri=${googleConfig.redirectUri}` +
+      `client_id=${clientId}` +
+      `&redirect_uri=${redirectUri}` +
       `&response_type=code` +
-      `&scope=${googleConfig.scope}` +
+      `&scope=${scope}` +
       `&access_type=offline` +
       `&prompt=consent`;
   }
 
   async refreshToken(token: string): Promise<Token> {
     try {
-      const res = await axios.post<GoogleTokenResponse>(googleConfig.baseUrl, null, {
+      const res = await axios.post<GoogleTokenResponse>(baseUrl, null, {
         params: {
-          client_id: googleConfig.clientId,
-          client_secret: googleConfig.clientSecret,
+          client_id: clientId,
+          client_secret: clientSecret,
           refresh_token: token,
           grant_type: 'refresh_token'
         }

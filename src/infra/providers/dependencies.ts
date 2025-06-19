@@ -19,6 +19,7 @@ import { GetSubscribedChannelsUseCase } from '../../domain/usecases/get-subscrib
 import { GetLatestVideosFromChannelUseCase } from '../../domain/usecases/get-latest-videos-from-channel.js';
 import { AddVideoToPlaylistUseCase } from '../../domain/usecases/add-video-to-playlist.js';
 import { RemoveVideoFromPlaylistUseCase } from '../../domain/usecases/remove-video-from-playlist.js';
+import { GoogleAccountService } from '../services/google-account/google-account.service.js';
 
 await connectMongoose();
 
@@ -28,6 +29,7 @@ const tokenMongoDBRepository = new TokenMongoDBRepository();
 /* services */
 const googleAuthService = new GoogleAuthService();
 const youtubeService = new YoutubeService();
+const googleAccountService = new GoogleAccountService()
 
 /* use cases */
 const saveRefreshTokenUseCase = new SaveRefreshTokenUseCase(
@@ -46,7 +48,10 @@ const generateAuthToken = new GenerateAuthTokenUseCase(
   createToken,
 );
 const getUrlConsentUseCase = new GetUrlConsentUseCase(googleAuthService);
-const getUrlRedirectBack = new GetUrlRedirectBackUseCase(generateAuthToken);
+const getUrlRedirectBack = new GetUrlRedirectBackUseCase(
+  generateAuthToken,
+  googleAccountService,
+);
 const getVideosFromPlaylistUseCase = new GetVideosFromPlaylistUseCase(
   getBearerTokenUseCase,
   youtubeService,
