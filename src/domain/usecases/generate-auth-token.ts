@@ -1,11 +1,11 @@
 import { BusinessError } from '../errors/BusinessError.js';
 import { Logger } from '../../infra/logger/pino.logger.js';
-import { AuthService } from '../port/services/auth.service.js';
+import { PartnerOAuthService } from '../port/services/partner-oauth.service.js';
 import { CreateTokenUseCase } from './create-token.js';
 
 export class GenerateAuthTokenUseCase {
   constructor(
-    private readonly authService: AuthService,
+    private readonly partnerOAuthService: PartnerOAuthService,
     private readonly createToken: CreateTokenUseCase
   ) {}
 
@@ -13,7 +13,7 @@ export class GenerateAuthTokenUseCase {
 
   async execute(code: string): Promise<string> {
     try {
-      const tokenResponse = await this.authService.getToken(code);
+      const tokenResponse = await this.partnerOAuthService.getToken(code);
 
       if (!tokenResponse || !tokenResponse.access_token) {
         throw new BusinessError('Failed to retrieve access token from Google');

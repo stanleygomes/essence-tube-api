@@ -1,13 +1,13 @@
 import { BusinessError } from '../errors/BusinessError.js';
 import { Logger } from '../../infra/logger/pino.logger.js';
-import type { AuthService } from '../port/services/auth.service.js';
+import type { PartnerOAuthService } from '../port/services/partner-oauth.service.js';
 import { Token } from '../entities/token.entity.js';
 import { TokenFactory } from '../factories/token.factory.js';
 import { TokenRepository } from '../port/databases/token.repository.js';
 
 export class SaveRefreshTokenUseCase {
   constructor(
-    private readonly authService: AuthService,
+    private readonly partnerOAuthService: PartnerOAuthService,
     private readonly tokenRepository: TokenRepository,
 
   ) {}
@@ -20,7 +20,7 @@ export class SaveRefreshTokenUseCase {
     }
 
     try {
-      const tokenResponse = await this.authService.refreshToken(token);
+      const tokenResponse = await this.partnerOAuthService.refreshToken(token);
 
       if (!tokenResponse || !tokenResponse.access_token) {
         throw new BusinessError('Failed to retrieve access token from Google after refresh');

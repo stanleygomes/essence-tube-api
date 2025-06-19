@@ -5,11 +5,11 @@ import { Logger } from '../../logger/pino.logger.js';
 import { GoogleTokenResponse } from './responses/google-token.response.js';
 import { Token } from '../../../domain/entities/token.entity.js';
 import { TokenMapper } from './mappers/token.mapper.js';
-import { AuthService } from '../../../domain/port/services/auth.service.js';
+import { PartnerOAuthService } from '../../../domain/port/services/partner-oauth.service.js';
 
 const googleConfig = config.services.google;
 
-export class GoogleAuthService implements AuthService {
+export class GoogleAuthService implements PartnerOAuthService {
   private logger = Logger.getLogger();
 
   async getToken(authCode: string): Promise<Token> {
