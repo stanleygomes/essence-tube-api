@@ -72,21 +72,21 @@ Essa abordagem nos permite, por exemplo, trocar o MongoDB por outro banco de dad
 ├── domain/
 │   ├── entities/
 │   ├── errors/
-│   ├── use-cases/
-│   ├── repositories/ # Interfaces
-│   └── services/     # Interfaces
+│   ├── repositories/
+│   └── services/
 │
 ├── application/
-│   ├── controllers/
-│   └── errors/
+│   └── use-cases/
 │
 └── infrastructure/
     ├── config/
     ├── database/
-    │   └── mongodb/  # Implementação
+    │   └── mongodb/
     ├── logger/
     ├── services/
-    │   └── youtube/  # Implementação
+    │   └── google-account/
+    │   └── google-auth/
+    │   └── youtube/
     ├── web/
     │   └── express/
     │       └── middlewares/
