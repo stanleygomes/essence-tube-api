@@ -1,12 +1,12 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { BusinessError } from "../../../../domain/errors/BusinessError.js";
 import { Logger } from "../../../logger/pino.logger.js";
-import { GetVideosFromPlaylistUseCase } from "../../../../domain/usecases/get-videos-from-playlist.js";
+import { GetVideosFromPlaylistUseCase } from "../../../../application/usecases/get-videos-from-playlist.js";
 import { CorsMiddleware } from "../middlewares/cors.middleware.js";
 import { GetTokenMiddleware } from "../middlewares/get-token.middleware.js";
-import { GetPlaylistsUseCase } from "../../../../domain/usecases/get-playlists.js";
-import { AddVideoToPlaylistUseCase } from "../../../../domain/usecases/add-video-to-playlist.js";
-import { RemoveVideoFromPlaylistUseCase } from "../../../../domain/usecases/remove-video-from-playlist.js";
+import { GetPlaylistsUseCase } from "../../../../application/usecases/get-playlists.js";
+import { AddVideoToPlaylistUseCase } from "../../../../application/usecases/add-video-to-playlist.js";
+import { RemoveVideoFromPlaylistUseCase } from "../../../../application/usecases/remove-video-from-playlist.js";
 
 export class PlaylistRoutes {
   constructor(

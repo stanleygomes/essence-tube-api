@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { AuthInfo } from '../entities/auth-info.entity.js';
-import { User } from '../entities/user.entity.js';
-import { AuthInfoToUserMapper } from '../mappers/entities.mapper.js';
-import { UserRepository } from '../port/databases/user.repository.js';
+import { AuthInfo } from '../../domain/entities/auth-info.entity.js';
+import { User } from '../../domain/entities/user.entity.js';
+import { AuthInfoToUserMapper } from '../../domain/mappers/entities.mapper.js';
+import { UserRepository } from '../../domain/port/databases/user.repository.js';
 import { UpdateUserUseCase } from './update-user-use-case.js';
 
 export class SaveUserUseCase {

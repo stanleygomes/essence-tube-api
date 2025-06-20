@@ -1,7 +1,7 @@
 import { config } from '../../infra/config/index.js';
-import { AuthInfo } from '../entities/auth-info.entity.js';
-import { AuthService } from '../port/auth/auth.service.js';
-import { PartnerAccountService } from '../port/services/partner-account.service.js';
+import { AuthInfo } from '../../domain/entities/auth-info.entity.js';
+import { AuthService } from '../../domain/port/auth/auth.service.js';
+import { PartnerAccountService } from '../../domain/port/services/partner-account.service.js';
 import { GenerateAuthTokenUseCase } from './generate-auth-token.js';
 import { SaveUserUseCase } from './save-user-use-case.js';
 

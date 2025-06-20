@@ -1,8 +1,8 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { GetUrlConsentUseCase } from "../../../../domain/usecases/get-url-consent-use-case.js";
+import { GetUrlConsentUseCase } from "../../../../application/usecases/get-url-consent-use-case.js";
 import { BusinessError } from "../../../../domain/errors/BusinessError.js";
 import { Logger } from "../../../logger/pino.logger.js";
-import { GetUrlRedirectBackUseCase } from "../../../../domain/usecases/get-url-redirect-back.js";
+import { GetUrlRedirectBackUseCase } from "../../../../application/usecases/get-url-redirect-back.js";
 
 export class AuthRoutes {
   constructor(

@@ -3,8 +3,8 @@ import { CorsMiddleware } from "../middlewares/cors.middleware.js";
 import { BusinessError } from "../../../../domain/errors/BusinessError.js";
 import { Logger } from "../../../logger/pino.logger.js";
 import { GetTokenMiddleware } from "../middlewares/get-token.middleware.js";
-import { GetSubscribedChannelsUseCase } from "../../../../domain/usecases/get-subscribed-channels.js";
-import { GetLatestVideosFromChannelUseCase } from "../../../../domain/usecases/get-latest-videos-from-channel.js";
+import { GetSubscribedChannelsUseCase } from "../../../../application/usecases/get-subscribed-channels.js";
+import { GetLatestVideosFromChannelUseCase } from "../../../../application/usecases/get-latest-videos-from-channel.js";
 
 export class SubscriptionRoutes {
   constructor(

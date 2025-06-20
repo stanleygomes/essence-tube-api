@@ -1,9 +1,9 @@
-import { BusinessError } from '../errors/BusinessError.js';
+import { BusinessError } from '../../domain/errors/BusinessError.js';
 import { Logger } from '../../infra/logger/pino.logger.js';
 import { GetPartnerBearerTokenUseCase } from './get-bearer-token.js';
-import { PartnerMediaService } from '../port/services/partner-media.service.js';
+import { PartnerMediaService } from '../../domain/port/services/partner-media.service.js';
 
-export class GetLatestVideosFromChannelUseCase {
+export class GetPlaylistsUseCase {
   constructor(
     private readonly getPartnerBearerToken: GetPartnerBearerTokenUseCase,
     private readonly partnerMediaService: PartnerMediaService,
@@ -11,14 +11,14 @@ export class GetLatestVideosFromChannelUseCase {
 
   private logger = Logger.getLogger();
 
-  async execute(bearerToken: string, channelId: string): Promise<any> {
+  async execute(bearerToken: string): Promise<any> {
     const accessToken = await this.getPartnerBearerToken.execute(bearerToken);
 
     try {
-      return await this.partnerMediaService.getLatestVideosFromChannel(accessToken, channelId);
+      return await this.partnerMediaService.getPlaylistList(accessToken);
     } catch (error) {
       this.logger.error(error);
-      throw new BusinessError('Error retrieving channel videos api');
+      throw new BusinessError('Error retrieving playlists video api');
     }
   }
 }

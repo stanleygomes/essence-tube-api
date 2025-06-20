@@ -1,7 +1,7 @@
-import { BusinessError } from '../errors/BusinessError.js';
+import { BusinessError } from '../../domain/errors/BusinessError.js';
 import { Logger } from '../../infra/logger/pino.logger.js';
 import { GetPartnerBearerTokenUseCase } from './get-bearer-token.js';
-import { PartnerMediaService } from '../port/services/partner-media.service.js';
+import { PartnerMediaService } from '../../domain/port/services/partner-media.service.js';
 
 export class RemoveVideoFromPlaylistUseCase {
   constructor(

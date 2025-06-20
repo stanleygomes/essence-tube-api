@@ -2,7 +2,7 @@ import { VercelRequest, VercelResponse } from "@vercel/node";
 import { CorsMiddleware } from "../middlewares/cors.middleware.js";
 import { BusinessError } from "../../../../domain/errors/BusinessError.js";
 import { Logger } from "../../../logger/pino.logger.js";
-import { GetVideoUseCase } from "../../../../domain/usecases/get-video-use-case.js";
+import { GetVideoUseCase } from "../../../../application/usecases/get-video-use-case.js";
 import { GetTokenMiddleware } from "../middlewares/get-token.middleware.js";
 
 export class VideoRoutes {

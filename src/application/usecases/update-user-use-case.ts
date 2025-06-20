@@ -1,5 +1,5 @@
-import { User } from '../entities/user.entity.js';
-import { UserRepository } from '../port/databases/user.repository.js';
+import { User } from '../../domain/entities/user.entity.js';
+import { UserRepository } from '../../domain/port/databases/user.repository.js';
 
 export class UpdateUserUseCase {
   constructor(private readonly userRepository: UserRepository) {}

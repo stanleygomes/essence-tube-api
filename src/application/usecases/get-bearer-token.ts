@@ -1,9 +1,9 @@
-import { BusinessError } from '../errors/BusinessError.js';
-import { Token } from '../entities/token.entity.js';
+import { BusinessError } from '../../domain/errors/BusinessError.js';
+import { Token } from '../../domain/entities/token.entity.js';
 import { SaveRefreshTokenUseCase } from './save-refresh-token.js';
-import { TokenRepository } from '../port/databases/token.repository.js';
-import { AuthService } from '../port/auth/auth.service.js';
-import { UserRepository } from '../port/databases/user.repository.js';
+import { TokenRepository } from '../../domain/port/databases/token.repository.js';
+import { AuthService } from '../../domain/port/auth/auth.service.js';
+import { UserRepository } from '../../domain/port/databases/user.repository.js';
 
 export class GetPartnerBearerTokenUseCase {
   constructor(

@@ -1,8 +1,8 @@
-import { BusinessError } from '../errors/BusinessError.js';
+import { BusinessError } from '../../domain/errors/BusinessError.js';
 import { Logger } from '../../infra/logger/pino.logger.js';
-import { PartnerOAuthService } from '../port/services/partner-oauth.service.js';
+import { PartnerOAuthService } from '../../domain/port/services/partner-oauth.service.js';
 import { CreateTokenUseCase } from './create-token.js';
-import { Token } from '../entities/token.entity.js';
+import { Token } from '../../domain/entities/token.entity.js';
 
 export class GenerateAuthTokenUseCase {
   constructor(
