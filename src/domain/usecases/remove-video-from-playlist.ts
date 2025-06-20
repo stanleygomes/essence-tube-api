@@ -1,18 +1,18 @@
 import { BusinessError } from '../errors/BusinessError.js';
 import { Logger } from '../../infra/logger/pino.logger.js';
-import { GetBearerTokenUseCase } from './get-bearer-token.js';
+import { GetPartnerBearerTokenUseCase } from './get-bearer-token.js';
 import { PartnerMediaService } from '../port/services/partner-media.service.js';
 
 export class RemoveVideoFromPlaylistUseCase {
   constructor(
-    private readonly getBearerToken: GetBearerTokenUseCase,
+    private readonly getPartnerBearerToken: GetPartnerBearerTokenUseCase,
     private readonly partnerMediaService: PartnerMediaService,
   ) {}
 
   private logger = Logger.getLogger();
 
-  async execute(sessionId: string, playlistItemId?: string): Promise<any> {
-    const accessToken = await this.getBearerToken.execute(sessionId);
+  async execute(bearerToken: string, playlistItemId?: string): Promise<any> {
+    const accessToken = await this.getPartnerBearerToken.execute(bearerToken);
 
     if (!playlistItemId) {
       throw new BusinessError('Playlist Item ID is required!');

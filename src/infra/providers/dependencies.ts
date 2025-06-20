@@ -5,7 +5,7 @@ import { GenerateAuthTokenUseCase } from '../../domain/usecases/generate-auth-to
 import { TokenMongoDBRepository } from '../database/mongodb/repositories/token.repository.js';
 import { CreateTokenUseCase } from '../../domain/usecases/create-token.js';
 import { GetVideosFromPlaylistUseCase } from '../../domain/usecases/get-videos-from-playlist.js';
-import { GetBearerTokenUseCase } from '../../domain/usecases/get-bearer-token.js';
+import { GetPartnerBearerTokenUseCase } from '../../domain/usecases/get-bearer-token.js';
 import { SaveRefreshTokenUseCase } from '../../domain/usecases/save-refresh-token.js';
 import { YoutubeService } from '../services/youtube/youtube.service.js';
 import { GoogleAuthService } from '../services/google-auth/google-auth.service.js';
@@ -49,9 +49,11 @@ const saveRefreshTokenUseCase = new SaveRefreshTokenUseCase(
   googleAuthService,
   tokenMongoDBRepository,
 );
-const getBearerTokenUseCase = new GetBearerTokenUseCase(
+const getBearerTokenUseCase = new GetPartnerBearerTokenUseCase(
   saveRefreshTokenUseCase,
   tokenMongoDBRepository,
+  authService,
+  userMongoDBRepository,
 );
 const createToken = new CreateTokenUseCase(
   tokenMongoDBRepository,

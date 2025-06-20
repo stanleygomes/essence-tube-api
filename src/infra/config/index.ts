@@ -58,7 +58,7 @@ export const config: Config = {
     cors: {
       allowedOrigin: APP_CORS_ORIGIN || '*localhost*',
       allowedMethods: "GET,POST,PUT,DELETE,OPTIONS",
-      allowedHeaders: "Content-Type,uuid"
+      allowedHeaders: "Content-Type,Authorization",
     },
     env: NODE_ENV,
   },

@@ -52,6 +52,10 @@ export class JwtService implements AuthService {
     }
   }
 
+  decodeTokenPayload(token: string): AuthInfo {
+    return jwt.decode(token) as AuthInfo;
+  }
+
   private buildPayload(authInfo: AuthInfo, userUUID: string): Payload {
     return {
       uuid: userUUID,

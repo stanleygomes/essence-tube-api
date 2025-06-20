@@ -2,7 +2,7 @@ import { VercelRequest, VercelResponse } from "@vercel/node";
 import { CorsMiddleware } from "../middlewares/cors.middleware.js";
 import { BusinessError } from "../../../../domain/errors/BusinessError.js";
 import { Logger } from "../../../logger/pino.logger.js";
-import { ValidateTokenMiddleware } from "../middlewares/validate-token.middleware.js";
+import { GetTokenMiddleware } from "../middlewares/get-token.middleware.js";
 import { GetSubscribedChannelsUseCase } from "../../../../domain/usecases/get-subscribed-channels.js";
 import { GetLatestVideosFromChannelUseCase } from "../../../../domain/usecases/get-latest-videos-from-channel.js";
 
@@ -16,7 +16,11 @@ export class SubscriptionRoutes {
 
   async getChannels(req: VercelRequest, res: VercelResponse): Promise<void> {
     if (CorsMiddleware.apply(req, res)) return;
-    if (ValidateTokenMiddleware.validate(req, res)) return;
+
+    const bearerToken = GetTokenMiddleware.get(req, res);
+    if (!bearerToken) {
+      return;
+    }
 
     if (req.method !== 'GET') {
       res.status(405).json({ message: 'Method not allowed!' });
@@ -24,8 +28,7 @@ export class SubscriptionRoutes {
     }
 
     try {
-      const sessionId = req.headers['uuid'] as string;
-      const response = await this.getSubscribedChannelsUseCase.execute(sessionId);
+      const response = await this.getSubscribedChannelsUseCase.execute(bearerToken);
 
       res.status(200).json(response);
     } catch (error: any) {
@@ -42,7 +45,11 @@ export class SubscriptionRoutes {
 
   async getLatestVideosFromChannel(req: VercelRequest, res: VercelResponse): Promise<void> {
     if (CorsMiddleware.apply(req, res)) return;
-    if (ValidateTokenMiddleware.validate(req, res)) return;
+
+    const bearerToken = GetTokenMiddleware.get(req, res);
+    if (!bearerToken) {
+      return;
+    }
 
     if (req.method !== 'GET') {
       res.status(405).json({ message: 'Method not allowed!' });
@@ -50,9 +57,8 @@ export class SubscriptionRoutes {
     }
 
     try {
-      const sessionId = req.headers['uuid'] as string;
       const channelId = typeof req.query.id === 'string' ? req.query.id : Array.isArray(req.query.id) ? req.query.id[0] : '';
-      const response = await this.getLatestVideosFromChannelUseCase.execute(sessionId, channelId);
+      const response = await this.getLatestVideosFromChannelUseCase.execute(bearerToken, channelId);
 
       res.status(200).json(response);
     } catch (error: any) {

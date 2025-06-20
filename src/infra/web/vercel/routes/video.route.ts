@@ -3,7 +3,7 @@ import { CorsMiddleware } from "../middlewares/cors.middleware.js";
 import { BusinessError } from "../../../../domain/errors/BusinessError.js";
 import { Logger } from "../../../logger/pino.logger.js";
 import { GetVideoUseCase } from "../../../../domain/usecases/get-video-use-case.js";
-import { ValidateTokenMiddleware } from "../middlewares/validate-token.middleware.js";
+import { GetTokenMiddleware } from "../middlewares/get-token.middleware.js";
 
 export class VideoRoutes {
   constructor(private readonly getVideoUseCase: GetVideoUseCase) {}
@@ -12,7 +12,11 @@ export class VideoRoutes {
 
   async getVideo(req: VercelRequest, res: VercelResponse): Promise<void> {
     if (CorsMiddleware.apply(req, res)) return;
-    if (ValidateTokenMiddleware.validate(req, res)) return;
+
+    const bearerToken = GetTokenMiddleware.get(req, res);
+    if (!bearerToken) {
+      return;
+    }
 
     if (req.method !== 'GET') {
       res.status(405).json({ message: 'Method not allowed!' });
@@ -20,9 +24,8 @@ export class VideoRoutes {
     }
 
     try {
-      const sessionId = req.headers['uuid'] as string | undefined;
       const videoId = typeof req.query.id === 'string' ? req.query.id : Array.isArray(req.query.id) ? req.query.id[0] : undefined;
-      const response = await this.getVideoUseCase.execute(sessionId ?? '', videoId ?? '');
+      const response = await this.getVideoUseCase.execute(bearerToken ?? '', videoId ?? '');
       res.status(200).json(response);
     } catch (error: any) {
       this.logger.error(error);
