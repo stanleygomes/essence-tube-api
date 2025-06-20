@@ -49,7 +49,7 @@ const saveRefreshTokenUseCase = new SaveRefreshTokenUseCase(
   googleAuthService,
   tokenMongoDBRepository,
 );
-const getBearerTokenUseCase = new GetPartnerBearerTokenUseCase(
+const getPartnerBearerTokenUseCase = new GetPartnerBearerTokenUseCase(
   saveRefreshTokenUseCase,
   tokenMongoDBRepository,
   authService,
@@ -70,31 +70,31 @@ const getUrlRedirectBack = new GetUrlRedirectBackUseCase(
   authService,
 );
 const getVideosFromPlaylistUseCase = new GetVideosFromPlaylistUseCase(
-  getBearerTokenUseCase,
+  getPartnerBearerTokenUseCase,
   youtubeService,
 );
 const getPlaylistsUseCase = new GetPlaylistsUseCase(
-  getBearerTokenUseCase,
+  getPartnerBearerTokenUseCase,
   youtubeService,
 );
 const getVideoUseCase = new GetVideoUseCase(
-  getBearerTokenUseCase,
+  getPartnerBearerTokenUseCase,
   youtubeService,
 );
 const getSubscribedChannelsUseCase = new GetSubscribedChannelsUseCase(
-  getBearerTokenUseCase,
+  getPartnerBearerTokenUseCase,
   youtubeService,
 );
 const getLatestVideosFromChannelUseCase = new GetLatestVideosFromChannelUseCase(
-  getBearerTokenUseCase,
+  getPartnerBearerTokenUseCase,
   youtubeService,
 );
 const addVideoToPlaylistUseCase = new AddVideoToPlaylistUseCase(
-  getBearerTokenUseCase,
+  getPartnerBearerTokenUseCase,
   youtubeService,
 );
 const removeVideoFromPlaylistUseCase = new RemoveVideoFromPlaylistUseCase(
-  getBearerTokenUseCase,
+  getPartnerBearerTokenUseCase,
   youtubeService,
 );
 
