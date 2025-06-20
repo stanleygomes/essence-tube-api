@@ -1,4 +1,3 @@
-
 # EssenceTube API
 
 [](https://www.google.com/search?q=https://vercel.com/new/clone%3Frepository-url%3Dhttps%253A%252F%252Fgithub.com%252Fseu-usuario%252Fessense-tube-api)
@@ -157,10 +156,14 @@ As seguintes variáveis são necessárias para a execução do projeto. Elas dev
 
 O deploy é automatizado e acontece a cada push na branch `master` para a Vercel.
 
-Para realizar um deploy manual para o ambiente de produção, use o comando:
+### Release e versionamento
+
+O versionamento do projeto segue o [Semantic Versioning](https://semver.org/) e utiliza o pacote [`standard-version`](https://github.com/conventional-changelog/standard-version) para gerar changelog, atualizar a versão no `package.json` e criar tags automaticamente com base nos commits.
+
+Para criar uma nova versão, gere changelog, commit e tag, execute:
 
 ```bash
-npm run deploy
+npm run release
 ```
 
 -----
