@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/stanleygomes/essence-tube-api/compare/v1.1.2...v1.2.0) (2025-07-02)
+
+
+### Features
+
+* implementacao server com fastify ([98c78fb](https://github.com/stanleygomes/essence-tube-api/commit/98c78fb622dd606fdbe4e4f824e6d73c54227587))
+
 ### [1.1.2](https://github.com/stanleygomes/essence-tube-api/compare/v1.1.1...v1.1.2) (2025-07-02)
 
 ### [1.1.2](https://github.com/stanleygomes/essence-tube-api/compare/v1.1.1...v1.1.2) (2025-07-02)
