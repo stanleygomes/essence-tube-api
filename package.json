@@ -5,6 +5,7 @@
   "main": "api/login.js",
   "scripts": {
     "start": "vercel dev --debug",
+    "start:fastify": "node --loader ts-node/esm src/infra/web/fastify/server.ts",
     "build": "echo 'No build step required'",
     "deploy": "vercel --prod",
     "lint": "eslint .",
@@ -19,6 +20,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "fastify": "^5.4.0",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mongodb": "^6.17.0",
