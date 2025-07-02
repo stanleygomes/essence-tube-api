@@ -31,6 +31,7 @@ export class AppServer {
       if (err) {
         throw err;
       }
+
       this.logger.info(`Fastify server running on ${url}:${port}${path}`);
       this.logger.info(`Swagger docs available at ${url}:${port}${pathDocs}`);
     });
