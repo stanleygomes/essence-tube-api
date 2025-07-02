@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/stanleygomes/essence-tube-api/compare/v1.2.0...v1.3.0) (2025-07-02)
+
+
+### Features
+
+* configucaro base do swagger ([097d678](https://github.com/stanleygomes/essence-tube-api/commit/097d678c00641bcce7f466ab797532258025f5cd))
+* configuracao basica das rotas existentes para o docs ([e4b484c](https://github.com/stanleygomes/essence-tube-api/commit/e4b484ce616d484a2cfb134e44094ccd3d0e0fa7))
+
 ## [1.2.0](https://github.com/stanleygomes/essence-tube-api/compare/v1.1.2...v1.2.0) (2025-07-02)
 
 
