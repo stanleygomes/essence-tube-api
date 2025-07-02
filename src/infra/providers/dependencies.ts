@@ -1,4 +1,3 @@
-import { AuthRoutes } from '../web/vercel/routes/auth.route.js';
 import { GetUrlConsentUseCase } from '../../application/usecases/get-url-consent-use-case.js';
 import { GetUrlRedirectBackUseCase } from '../../application/usecases/get-url-redirect-back.js';
 import { GenerateAuthTokenUseCase } from '../../application/usecases/generate-auth-token.js';
@@ -9,12 +8,9 @@ import { GetPartnerBearerTokenUseCase } from '../../application/usecases/get-bea
 import { SaveRefreshTokenUseCase } from '../../application/usecases/save-refresh-token.js';
 import { YoutubeService } from '../services/youtube/youtube.service.js';
 import { GoogleAuthService } from '../services/google-auth/google-auth.service.js';
-import { PlaylistRoutes } from '../web/vercel/routes/playlist.route.js';
 import { connectMongoose } from '../database/mongodb/connection.js';
 import { GetPlaylistsUseCase } from '../../application/usecases/get-playlists.js';
-import { VideoRoutes } from '../web/vercel/routes/video.route.js';
 import { GetVideoUseCase } from '../../application/usecases/get-video-use-case.js';
-import { SubscriptionRoutes } from '../web/vercel/routes/subscription.route.js';
 import { GetSubscribedChannelsUseCase } from '../../application/usecases/get-subscribed-channels.js';
 import { GetLatestVideosFromChannelUseCase } from '../../application/usecases/get-latest-videos-from-channel.js';
 import { AddVideoToPlaylistUseCase } from '../../application/usecases/add-video-to-playlist.js';
@@ -63,7 +59,7 @@ const generateAuthToken = new GenerateAuthTokenUseCase(
   createToken,
 );
 const getUrlConsentUseCase = new GetUrlConsentUseCase(googleAuthService);
-const getUrlRedirectBack = new GetUrlRedirectBackUseCase(
+const getUrlRedirectBackUseCase = new GetUrlRedirectBackUseCase(
   generateAuthToken,
   googleAccountService,
   saveUserUseCase,
@@ -98,28 +94,14 @@ const removeVideoFromPlaylistUseCase = new RemoveVideoFromPlaylistUseCase(
   youtubeService,
 );
 
-/* routes */
-const authRoutes = new AuthRoutes(
+export {
   getUrlConsentUseCase,
-  getUrlRedirectBack,
-);
-const playlistRoutes = new PlaylistRoutes(
+  getUrlRedirectBackUseCase,
   getVideosFromPlaylistUseCase,
   getPlaylistsUseCase,
-  addVideoToPlaylistUseCase,
-  removeVideoFromPlaylistUseCase,
-);
-const videoRoutes = new VideoRoutes(
   getVideoUseCase,
-);
-const subscriptionRoutes = new SubscriptionRoutes(
   getSubscribedChannelsUseCase,
   getLatestVideosFromChannelUseCase,
-);
-
-export {
-  authRoutes,
-  playlistRoutes,
-  videoRoutes,
-  subscriptionRoutes,
+  addVideoToPlaylistUseCase,
+  removeVideoFromPlaylistUseCase,
 };
