@@ -12,6 +12,7 @@ const {
   SERVER_URL,
   SERVER_PATH,
   SERVER_PORT,
+  SWAGGER_PATH,
 } = process.env;
 
 export interface Config {
@@ -20,6 +21,9 @@ export interface Config {
       url?: string;
       path?: string;
       port?: string;
+    };
+    docs: {
+      path?: string;
     };
     web: {
       baseUrl?: string;
@@ -64,6 +68,9 @@ export const config: Config = {
       url: SERVER_URL,
       path: SERVER_PATH,
       port: SERVER_PORT,
+    },
+    docs: {
+      path: SWAGGER_PATH,
     },
     web: {
       baseUrl: APP_PUBLIC_BASE_URL,
