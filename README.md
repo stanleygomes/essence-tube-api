@@ -135,8 +135,23 @@ npm start
 O servidor estará disponível em `http://localhost:3000` (ou na porta definida pela Vercel).
 
 -----
+## 📑 Documentação da API (Swagger)
 
-## 🔧 Variáveis de Ambiente
+A API possui documentação interativa gerada automaticamente via **Swagger**.
+
+Você pode acessar a documentação em tempo real no endpoint:
+
+```
+/docs
+```
+
+Todas as rotas documentadas exibem exemplos de requisição e resposta.
+
+Para rotas protegidas, utilize o botão **Authorize** no topo da interface Swagger e informe seu token JWT no formato `Bearer <token>`.
+
+O arquivo de configuração do Swagger está centralizado em `src/infra/web/fastify/docs.ts` e utiliza os dados do `package.json` para manter as informações da API sempre atualizadas.
+
+-----
 
 As seguintes variáveis são necessárias para a execução do projeto. Elas devem ser definidas em um arquivo `.env` na raiz do projeto.
 
